@@ -1,4 +1,4 @@
-📌 Niva Buyer Zone - Telegram Mini App
+📌 Coin Market - Telegram Mini App
 
 🚀 Features:
 1. Dynamic User Info: অটোমেটিক ইউজারের ছবি, নাম এবং আইডি শো করে।

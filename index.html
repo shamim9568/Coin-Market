@@ -123,7 +123,7 @@
         tg.expand();
 
         // 🟢 CONFIGURATION (Firebase)
-        const DB_URL = "https://console.firebase.google.com/project/coin-market-e4c85/database/coin-market-e4c85-default-rtdb/data/~2F"; // 👈 আপনার Firebase Database লিঙ্ক এখানে দিন
+        const DB_URL = https://coin-market-e4c85-default-rtdb.firebaseio.com// 👈 আপনার Firebase Database লিঙ্ক এখানে দিন
         const MY_ADMIN_ID = 6822761216; // 👈 আপনার টেলিগ্রাম আইডি এখানে দিন
 
         const user = tg.initDataUnsafe.user;
@@ -209,4 +209,5 @@
                 Object.keys(data).reverse().forEach(key => {
                     let o = data[key];
                     if(o.userId === user.id) {
+
                         let statusColor = o.status === "Received" ? "green" : (o.status === "Rejected" ? "red" : "orange");

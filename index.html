@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Niva Buyer Zone</title>
+    <title>Coin Market</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
@@ -69,20 +69,20 @@
                 <div class="offline-tag" style="background: #2481cc;">ONLINE</div>
                 <b>🔵 NS Coin</b>
                 <div class="rate-grid">
-                    <div class="rate-box"><small>RATE</small><br><b>5.0৳</b></div>
-                    <div class="rate-box"><small>ADMIN</small><br><b>5.0৳</b></div>
+                    <div class="rate-box"><small>RATE</small><br><b>18৳</b></div>
+                    <div class="rate-box"><small>ADMIN</small><br><b>18.5৳</b></div>
                 </div>
-                <button class="sell-btn" onclick="openForm('NS', 5.0)">Sell NS</button>
+                <button class="sell-btn" onclick="openForm('NS', 18)">Sell NS</button>
             </div>
 
             <div class="coin-card">
-                <div class="offline-tag" style="background: #8e44ad;">ONLINE</div>
+                <div class="offline-tag" style="background: #8e44ad;">offline</div>
                 <b>🟣 Riva Coin</b>
                 <div class="rate-grid">
-                    <div class="rate-box"><small>RATE</small><br><b>8.2৳</b></div>
-                    <div class="rate-box"><small>ADMIN</small><br><b>8.2৳</b></div>
+                    <div class="rate-box"><small>RATE</small><br><b>5.5৳</b></div>
+                    <div class="rate-box"><small>ADMIN</small><br><b>5.5৳</b></div>
                 </div>
-                <button class="sell-btn" onclick="openForm('Riva', 8.2)">Sell Riva</button>
+                <button class="sell-btn" onclick="openForm('Riva', 5.5)">Sell Riva</button>
             </div>
         </div>
         
@@ -94,7 +94,7 @@
         <div class="form-card">
             <h3 id="form-title">Sell Coin</h3>
             <label>Admin Wallet Username</label>
-            <input type="text" value="@Admin_Wallet_User" readonly style="background:#f1f1f1">
+            <input type="text" value="shamim44035" readonly style="background:#f1f1f1">
             <label>Coin Amount</label>
             <input type="number" id="inp-amount" placeholder="Ex: 1000">
             <label>Payment Method</label>
@@ -129,7 +129,7 @@
         tg.expand();
 
         const DB_URL = "https://coin-market-e4c85-default-rtdb.firebaseio.com";
-        const MY_ADMIN_ID = 123456789; // 👈 এখানে আপনার সঠিক টেলিগ্রাম আইডি দিন
+        const MY_ADMIN_ID = 6822761216; // 👈 এখানে আপনার সঠিক টেলিগ্রাম আইডি দিন
 
         const user = tg.initDataUnsafe.user || { id: 0, first_name: "Developer" };
 
@@ -198,3 +198,4 @@
                             <div class="order-item">
                                 <b>${o.coin} - ${o.amt} Coins</b><br>
                                 <span>Payout: ${o.payout
+

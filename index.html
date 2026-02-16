@@ -3,64 +3,62 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Coin Market</title>
+    <title>Niva Buyer Zone</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root { --p-blue: #2481cc; --bg: #f0f7ff; }
-        body { font-family: sans-serif; background: var(--bg); margin: 0; padding: 15px; padding-bottom: 80px; color: #333; }
+        body { font-family: 'Segoe UI', sans-serif; background: var(--bg); margin: 0; padding: 15px; padding-bottom: 80px; color: #333; }
         
-        /* User Profile Header */
+        /* Header */
         .admin-header { background: linear-gradient(90deg, #1d71b8, #4a90e2); border-radius: 20px; padding: 15px; display: flex; justify-content: space-between; align-items: center; color: white; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
-        .p-info { display: flex; align-items: center; }
-        .avatar { width: 50px; height: 50px; border-radius: 50%; border: 2px solid #fff; margin-right: 12px; object-fit: cover; background: #eee; }
+        .avatar { width: 45px; height: 45px; border-radius: 50%; border: 2px solid #fff; object-fit: cover; background: #eee; }
+
+        /* Stats */
+        .admin-stats { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-top: 15px; }
+        .stat-box { background: white; padding: 10px; border-radius: 15px; text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
 
         /* Coin Cards */
-        .coin-card { background: white; border-radius: 25px; padding: 20px; margin-top: 20px; position: relative; box-shadow: 0 4px 12px rgba(0,0,0,0.03); }
+        .coin-card { background: white; border-radius: 25px; padding: 20px; margin-top: 15px; position: relative; box-shadow: 0 4px 12px rgba(0,0,0,0.03); border: 1px solid #e0e0e0; }
         .offline-tag { position: absolute; top: 0; right: 0; background: #27ae60; color: white; padding: 5px 15px; font-size: 10px; border-bottom-left-radius: 15px; font-weight: bold; }
-        .rate-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px; }
-        .rate-box { background: #f8fbff; padding: 12px; border-radius: 12px; text-align: center; }
-        .sell-btn { background: var(--p-blue); color: white; width: 100%; padding: 12px; border-radius: 12px; border: none; font-weight: bold; margin-top: 15px; cursor: pointer; display: block; }
+        .rate-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
+        .rate-box { background: #f8fbff; padding: 10px; border-radius: 12px; text-align: center; border: 1px solid #eef5ff; }
+        .sell-btn { background: var(--p-blue); color: white; width: 100%; padding: 12px; border-radius: 12px; border: none; font-weight: bold; margin-top: 10px; cursor: pointer; transition: 0.3s; }
+        .sell-btn:active { transform: scale(0.98); }
 
-        /* Page Management */
+        /* Pages */
         .page { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); z-index: 1000; padding: 20px; box-sizing: border-box; overflow-y: auto; }
-        .active { display: block !important; }
-        input, select { width: 100%; padding: 12px; margin: 10px 0; border-radius: 10px; border: 1px solid #ddd; box-sizing: border-box; }
-        .form-card { background: white; padding: 20px; border-radius: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
-        .back-btn { background: #555; color: #fff; padding: 8px 15px; border-radius: 10px; border: none; margin-bottom: 15px; }
-
-        .order-item { background: white; padding: 15px; border-radius: 15px; margin-bottom: 15px; border-left: 5px solid orange; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
-        #admin-panel-btn { display: none; background: #333; color: white; margin-top: 15px; }
+        .order-item { background: white; padding: 15px; border-radius: 18px; margin-bottom: 15px; border-left: 6px solid #ff9800; box-shadow: 0 3px 10px rgba(0,0,0,0.05); }
         
-        .status-badge { padding: 4px 10px; border-radius: 8px; font-size: 12px; font-weight: bold; }
-        .pending { background: #fff4e5; color: #ff9800; }
-        .received { background: #e8f5e9; color: #2e7d32; }
-        .rejected { background: #ffebee; color: #c62828; }
+        input, select { width: 100%; padding: 12px; margin: 8px 0; border-radius: 12px; border: 1px solid #ddd; box-sizing: border-box; }
+        .admin-btn-group { display: flex; gap: 10px; margin-top: 10px; }
+        .btn-accept { background: #27ae60; color: white; flex: 1; padding: 10px; border: none; border-radius: 8px; font-weight: bold; }
+        .btn-reject { background: #e74c3c; color: white; flex: 1; padding: 10px; border: none; border-radius: 8px; font-weight: bold; }
     </style>
 </head>
 <body>
 
     <div id="home-page">
         <div class="admin-header">
-            <div class="p-info">
-                <img id="user-pic" src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" class="avatar">
-                <div>
-                    <b id="user-display-name">Loading User...</b><br>
-                    <small id="user-display-id">ID: 000000</small>
+            <div style="display: flex; align-items: center;">
+                <img id="user-pic" src="" class="avatar">
+                <div style="margin-left: 10px;">
+                    <b id="user-display-name">Loading...</b><br>
+                    <small id="user-display-id">ID: 0000</small>
                 </div>
             </div>
-            <div style="text-align:right"><small>Status</small><br><b>🟢 Online</b></div>
+            <div style="text-align: right;"><small>Status</small><br><b>🟢 Active</b></div>
         </div>
 
-        <button id="admin-panel-btn" class="sell-btn" onclick="showPage('admin-page')">👑 Admin Dashboard</button>
+        <button id="admin-panel-btn" class="sell-btn" style="background: #333; display: none;" onclick="showPage('admin-page')">👑 Admin Dashboard</button>
 
         <div id="coin-market">
             <div class="coin-card">
                 <div class="offline-tag">ONLINE</div>
                 <b>🟢 Niva Coin</b>
                 <div class="rate-grid">
-                    <div class="rate-box"><small>RATE</small><br><b>3.8৳</b></div>
-                    <div class="rate-box"><small>ADMIN</small><br><b>3.8৳</b></div>
+                    <div class="rate-box"><small>Rate</small><br><b>3.8৳</b></div>
+                    <div class="rate-box"><small>Limit</small><br><b>Unlimited</b></div>
                 </div>
                 <button class="sell-btn" onclick="openForm('Niva', 3.8)">Sell Niva</button>
             </div>
@@ -69,58 +67,59 @@
                 <div class="offline-tag" style="background: #2481cc;">ONLINE</div>
                 <b>🔵 NS Coin</b>
                 <div class="rate-grid">
-                    <div class="rate-box"><small>RATE</small><br><b>18৳</b></div>
-                    <div class="rate-box"><small>ADMIN</small><br><b>18.5৳</b></div>
+                    <div class="rate-box"><small>Rate</small><br><b>18৳</b></div>
+                    <div class="rate-box"><small>Limit</small><br><b>Unlimited</b></div>
                 </div>
-                <button class="sell-btn" onclick="openForm('NS', 18)">Sell NS</button>
+                <button class="sell-btn" onclick="openForm('NS', 18)" style="background: #2481cc;">Sell NS</button>
             </div>
 
             <div class="coin-card">
                 <div class="offline-tag" style="background: #8e44ad;">offline</div>
                 <b>🟣 Riva Coin</b>
                 <div class="rate-grid">
-                    <div class="rate-box"><small>RATE</small><br><b>5.5৳</b></div>
-                    <div class="rate-box"><small>ADMIN</small><br><b>5.5৳</b></div>
+                    <div class="rate-box"><small>Rate</small><br><b>5.5৳</b></div>
+                    <div class="rate-box"><small>Limit</small><br><b>Unlimited</b></div>
                 </div>
-                <button class="sell-btn" onclick="openForm('Riva', 5.5)">Sell Riva</button>
+                <button class="sell-btn" onclick="openForm('Riva', 5.5)" style="background: #8e44ad;">Sell Riva</button>
             </div>
         </div>
         
-        <button class="sell-btn" style="background:#8e44ad" onclick="showPage('history-page')">📜 My History</button>
+        <button class="sell-btn" style="background:#444; margin-top: 20px;" onclick="showPage('history-page')">📜 Transaction History</button>
+    </div>
+
+    <div id="admin-page" class="page">
+        <div style="display: flex; justify-content: space-between; align-items: center;">
+            <h3>👑 Admin Panel</h3>
+            <button onclick="showPage('home-page')" style="background: #eee; border: none; padding: 5px 15px; border-radius: 10px;">Back</button>
+        </div>
+        <div class="admin-stats">
+            <div class="stat-box"><small>Pending</small><br><b id="count-pending">0</b></div>
+            <div class="stat-box"><small>Paid</small><br><b id="count-paid">0</b></div>
+            <div class="stat-box"><small>Rejected</small><br><b id="count-rej">0</b></div>
+        </div>
+        <div id="admin-list" style="margin-top: 20px;"></div>
     </div>
 
     <div id="sell-page" class="page">
-        <button class="back-btn" onclick="showPage('home-page')">← Back</button>
-        <div class="form-card">
+        <button onclick="showPage('home-page')" style="margin-bottom: 15px; border: none; background: #ddd; padding: 8px 15px; border-radius: 10px;">← Back</button>
+        <div style="background: white; padding: 20px; border-radius: 20px;">
             <h3 id="form-title">Sell Coin</h3>
-            <label>Admin Wallet Username</label>
-            <input type="text" value="shamim44035" readonly style="background:#f1f1f1">
-            <label>Coin Amount</label>
+            <label>Amount (Coins)</label>
             <input type="number" id="inp-amount" placeholder="Ex: 1000">
             <label>Payment Method</label>
-            <select id="inp-method">
-                <option value="Bkash">Bkash</option>
-                <option value="Nagad">Nagad</option>
-                <option value="Rocket">Rocket</option>
-            </select>
-            <label>Your Payment Number</label>
+            <select id="inp-method"><option>Bkash</option><option>Nagad</option><option>Rocket</option></select>
+            <label>Your Number</label>
             <input type="text" id="inp-number" placeholder="01XXXXXXXXX">
-            <label>Your Username (Sender)</label>
-            <input type="text" id="inp-wallet" placeholder="Username">
-            <button class="sell-btn" id="sub-btn" onclick="submitOrder()" style="background:#27ae60">Submit to Admin</button>
+            <label>Your Wallet Username</label>
+            <input type="text" id="inp-wallet" placeholder="@username">
+            <button class="sell-btn" onclick="submitOrder()" style="background: #27ae60;">Submit Order</button>
         </div>
     </div>
 
     <div id="history-page" class="page">
-        <button class="back-btn" onclick="showPage('home-page')">← Back</button>
-        <h3>📜 My Transaction History</h3>
+        <button onclick="showPage('home-page')" style="margin-bottom: 15px; border: none; background: #ddd; padding: 8px 15px; border-radius: 10px;">← Back</button>
+        <h3>📜 My Orders</h3>
         <div id="history-list"></div>
-    </div>
-
-    <div id="admin-page" class="page">
-        <button class="back-btn" onclick="showPage('home-page')">← Logout Admin</button>
-        <h3>👑 Admin Control Panel</h3>
-        <div id="admin-list"></div>
     </div>
 
     <script>
@@ -129,73 +128,89 @@
         tg.expand();
 
         const DB_URL = "https://coin-market-e4c85-default-rtdb.firebaseio.com";
-        const MY_ADMIN_ID = 6822761216; // 👈 এখানে আপনার সঠিক টেলিগ্রাম আইডি দিন
+        const ADMIN_ID = 6822761216; // 👈 আপনার আইডি এখানে বসান
 
-        const user = tg.initDataUnsafe.user || { id: 0, first_name: "Developer" };
-
-        // UI Update
+        const user = tg.initDataUnsafe.user || {id: 123, first_name: "TestUser"};
+        
         document.getElementById('user-display-name').innerText = user.first_name;
         document.getElementById('user-display-id').innerText = "ID: " + user.id;
-        if(user.photo_url) document.getElementById('user-pic').src = user.photo_url;
-        
-        if(user.id == MY_ADMIN_ID) {
-            document.getElementById('admin-panel-btn').style.display = 'block';
-        }
+        document.getElementById('user-pic').src = user.photo_url || "https://cdn-icons-png.flaticon.com/512/3135/3135715.png";
+
+        if(user.id == ADMIN_ID) document.getElementById('admin-panel-btn').style.display = 'block';
 
         function showPage(id) {
             document.querySelectorAll('.page, #home-page').forEach(p => p.style.display = 'none');
             document.getElementById(id).style.display = 'block';
+            if(id === 'admin-page') fetchAdminData();
             if(id === 'history-page') fetchHistory();
-            if(id === 'admin-page') fetchAdmin();
         }
 
         let selCoin, selRate;
-        function openForm(c, r) {
-            selCoin = c; selRate = r;
-            document.getElementById('form-title').innerText = "Sell " + c;
-            showPage('sell-page');
-        }
+        function openForm(c, r) { selCoin = c; selRate = r; document.getElementById('form-title').innerText = "Sell " + c; showPage('sell-page'); }
 
         async function submitOrder() {
             let amt = document.getElementById('inp-amount').value;
-            let num = document.getElementById('inp-number').value;
-            let wal = document.getElementById('inp-wallet').value;
-
-            if(!amt || !num || !wal) return alert("All fields are required!");
-
+            if(!amt) return alert("Enter Amount!");
             let order = {
-                uid: user.id,
-                uName: user.first_name,
-                coin: selCoin,
-                amt: amt,
-                num: num,
-                method: document.getElementById('inp-method').value,
-                wallet: wal,
-                payout: (amt/1000 * selRate).toFixed(2),
-                status: "Pending",
-                date: new Date().toLocaleString()
+                uid: user.id, uName: user.first_name, coin: selCoin,
+                amt: amt, method: document.getElementById('inp-method').value,
+                num: document.getElementById('inp-number').value,
+                wallet: document.getElementById('inp-wallet').value,
+                payout: (amt / 1000 * selRate).toFixed(2),
+                status: "Pending", time: new Date().toLocaleString()
             };
+            await fetch(`${DB_URL}/orders.json`, { method: 'POST', body: JSON.stringify(order) });
+            alert("Order Submitted!"); showPage('history-page');
+        }
 
-            try {
-                await fetch(`${DB_URL}/orders.json`, { method: 'POST', body: JSON.stringify(order) });
-                alert("Order submitted successfully!");
-                showPage('history-page');
-            } catch(e) { alert("Firebase Error!"); }
+        async function fetchAdminData() {
+            let res = await fetch(`${DB_URL}/orders.json`);
+            let data = await res.json();
+            let list = document.getElementById('admin-list');
+            list.innerHTML = "";
+            let p = 0, d = 0, r = 0;
+
+            for(let key in data) {
+                let o = data[key];
+                if(o.status === "Pending") {
+                    p++;
+                    list.innerHTML += `
+                        <div class="order-item">
+                            <b style="color:#2481cc;">${o.coin} Order</b><br>
+                            User: ${o.uName} (${o.uid})<br>
+                            Amount: ${o.amt} | <b>Pay: ${o.payout}৳</b><br>
+                            ${o.method}: ${o.num}<br>
+                            <div class="admin-btn-group">
+                                <button class="btn-accept" onclick="updateStatus('${key}', 'Paid')">Accept</button>
+                                <button class="btn-reject" onclick="updateStatus('${key}', 'Rejected')">Reject</button>
+                            </div>
+                        </div>`;
+                } else if(o.status === "Paid") d++; else r++;
+            }
+            document.getElementById('count-pending').innerText = p;
+            document.getElementById('count-paid').innerText = d;
+            document.getElementById('count-rej').innerText = r;
         }
 
         async function fetchHistory() {
+            let res = await fetch(`${DB_URL}/orders.json`);
+            let data = await res.json();
             let list = document.getElementById('history-list');
-            list.innerHTML = "Loading...";
-            try {
-                let res = await fetch(`${DB_URL}/orders.json`);
-                let data = await res.json();
-                list.innerHTML = "";
-                if(!data) { list.innerHTML = "No orders yet."; return; }
-                
-                Object.values(data).reverse().forEach(o => {
-                    if(o.uid == user.id) {
-                        list.innerHTML += `
-                            <div class="order-item">
-                                <b>${o.coin} - ${o.amt} Coins</b><br>
-                                <span>Payout: ${o.payout
+            list.innerHTML = "";
+            for(let key in data) {
+                let o = data[key];
+                if(o.uid == user.id) {
+                    let color = o.status === 'Paid' ? 'green' : (o.status === 'Pending' ? 'orange' : 'red');
+                    list.innerHTML += `<div class="order-item" style="border-left-color:${color}">
+                        <b>${o.coin} - ${o.amt}</b><br>Payout: ${o.payout}৳ | Status: <span style="color:${color}">${o.status}</span></div>`;
+                }
+            }
+        }
 
+        async function updateStatus(key, s) {
+            await fetch(`${DB_URL}/orders/${key}.json`, { method: 'PATCH', body: JSON.stringify({status: s}) });
+            fetchAdminData();
+        }
+    </script>
+</body>
+</html>

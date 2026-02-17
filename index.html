@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Coin Market</title>
-    <script src="https://t.me/coinmarketofficialupdate"></script>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
         :root { --p-blue: #2481cc; --bg: #f0f7ff; }
@@ -157,7 +157,7 @@
         tg.expand();
 
         const DB_URL = "https://coin-market-e4c85-default-rtdb.firebaseio.com";
-        const ADMIN_ID = 6822761216; // 👈 আপনার আইডি এখানে বসান
+        const ADMIN_ID = 6822761216; 
 
         const user = tg.initDataUnsafe.user || {id: 123, first_name: "TestUser"};
         let coinStatus = { Niva: true, NS: true, Riva: true };
@@ -168,7 +168,6 @@
 
         if(user.id == ADMIN_ID) document.getElementById('admin-panel-btn').style.display = 'block';
 
-        // Fetch Initial Status
         async function fetchStatus() {
             try {
                 let res = await fetch(`${DB_URL}/status.json`);

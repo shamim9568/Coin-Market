@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Niva Buyer Zone</title>
+    <title>Coin Market</title>
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <style>
@@ -14,9 +14,11 @@
         .admin-header { background: linear-gradient(90deg, #1d71b8, #4a90e2); border-radius: 20px; padding: 15px; display: flex; justify-content: space-between; align-items: center; color: white; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
         .avatar { width: 45px; height: 45px; border-radius: 50%; border: 2px solid #fff; object-fit: cover; background: #eee; }
 
-        /* Stats */
+        /* Stats & Quick Links */
         .admin-stats { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-top: 15px; }
         .stat-box { background: white; padding: 10px; border-radius: 15px; text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
+        .quick-links { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px; }
+        .link-btn { padding: 12px; border-radius: 12px; border: none; font-weight: bold; color: white; cursor: pointer; text-align: center; text-decoration: none; font-size: 14px; }
 
         /* Coin Cards */
         .coin-card { background: white; border-radius: 25px; padding: 20px; margin-top: 15px; position: relative; box-shadow: 0 4px 12px rgba(0,0,0,0.03); border: 1px solid #e0e0e0; }
@@ -24,7 +26,7 @@
         .rate-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 10px; }
         .rate-box { background: #f8fbff; padding: 10px; border-radius: 12px; text-align: center; border: 1px solid #eef5ff; }
         .sell-btn { background: var(--p-blue); color: white; width: 100%; padding: 12px; border-radius: 12px; border: none; font-weight: bold; margin-top: 10px; cursor: pointer; transition: 0.3s; }
-        .sell-btn:active { transform: scale(0.98); }
+        .sell-btn:disabled { background: #ccc; cursor: not-allowed; }
 
         /* Pages */
         .page { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: var(--bg); z-index: 1000; padding: 20px; box-sizing: border-box; overflow-y: auto; }
@@ -34,6 +36,10 @@
         .admin-btn-group { display: flex; gap: 10px; margin-top: 10px; }
         .btn-accept { background: #27ae60; color: white; flex: 1; padding: 10px; border: none; border-radius: 8px; font-weight: bold; }
         .btn-reject { background: #e74c3c; color: white; flex: 1; padding: 10px; border: none; border-radius: 8px; font-weight: bold; }
+        
+        /* Control Switch */
+        .control-box { background: #fff; padding: 10px; border-radius: 12px; margin-bottom: 10px; display: flex; justify-content: space-between; align-items: center; border: 1px solid #ddd; }
+        .switch-btn { padding: 5px 15px; border-radius: 20px; border: none; font-weight: bold; cursor: pointer; }
     </style>
 </head>
 <body>
@@ -50,37 +56,42 @@
             <div style="text-align: right;"><small>Status</small><br><b>🟢 Active</b></div>
         </div>
 
+        <div class="quick-links">
+            <a href="https://t.me/your_channel" class="link-btn" style="background: #0088cc;"><i class="fab fa-telegram"></i> Join Channel</a>
+            <button class="link-btn" style="background: #ff9800;" onclick="alert('VPN section coming soon!')"><i class="fas fa-shield-alt"></i> Buy VPN</button>
+        </div>
+
         <button id="admin-panel-btn" class="sell-btn" style="background: #333; display: none;" onclick="showPage('admin-page')">👑 Admin Dashboard</button>
 
         <div id="coin-market">
             <div class="coin-card">
-                <div class="offline-tag">ONLINE</div>
+                <div class="offline-tag" id="tag-Niva">ONLINE</div>
                 <b>🟢 Niva Coin</b>
                 <div class="rate-grid">
-                    <div class="rate-box"><small>Rate</small><br><b>3.8৳</b></div>
+                    <div class="rate-box"><small>Rate</small><br><b>3.5৳</b></div>
                     <div class="rate-box"><small>Limit</small><br><b>Unlimited</b></div>
                 </div>
-                <button class="sell-btn" onclick="openForm('Niva', 3.8)">Sell Niva</button>
+                <button class="sell-btn" id="btn-Niva" onclick="openForm('Niva', 3.5, 'shamim44035')">Sell Niva</button>
             </div>
 
             <div class="coin-card">
-                <div class="offline-tag" style="background: #2481cc;">ONLINE</div>
+                <div class="offline-tag" id="tag-NS" style="background: #2481cc;">ONLINE</div>
                 <b>🔵 NS Coin</b>
                 <div class="rate-grid">
                     <div class="rate-box"><small>Rate</small><br><b>18৳</b></div>
                     <div class="rate-box"><small>Limit</small><br><b>Unlimited</b></div>
                 </div>
-                <button class="sell-btn" onclick="openForm('NS', 18)" style="background: #2481cc;">Sell NS</button>
+                <button class="sell-btn" id="btn-NS" onclick="openForm('NS', 18, 'shamim44035')" style="background: #2481cc;">Sell NS</button>
             </div>
 
             <div class="coin-card">
-                <div class="offline-tag" style="background: #8e44ad;">offline</div>
+                <div class="offline-tag" id="tag-Riva" style="background: #8e44ad;">ONLINE</div>
                 <b>🟣 Riva Coin</b>
                 <div class="rate-grid">
                     <div class="rate-box"><small>Rate</small><br><b>5.5৳</b></div>
                     <div class="rate-box"><small>Limit</small><br><b>Unlimited</b></div>
                 </div>
-                <button class="sell-btn" onclick="openForm('Riva', 5.5)" style="background: #8e44ad;">Sell Riva</button>
+                <button class="sell-btn" id="btn-Riva" onclick="openForm('Riva', 5.5, 'rivaminer5')" style="background: #8e44ad;">Sell Riva</button>
             </div>
         </div>
         
@@ -92,18 +103,32 @@
             <h3>👑 Admin Panel</h3>
             <button onclick="showPage('home-page')" style="background: #eee; border: none; padding: 5px 15px; border-radius: 10px;">Back</button>
         </div>
+        
         <div class="admin-stats">
             <div class="stat-box"><small>Pending</small><br><b id="count-pending">0</b></div>
             <div class="stat-box"><small>Paid</small><br><b id="count-paid">0</b></div>
             <div class="stat-box"><small>Rejected</small><br><b id="count-rej">0</b></div>
         </div>
-        <div id="admin-list" style="margin-top: 20px;"></div>
+
+        <h4 style="margin-top:20px;">Buy Controls</h4>
+        <div id="buy-controls">
+            <div class="control-box"><span>Niva Buying</span><button id="ctrl-Niva" class="switch-btn" onclick="toggleBuy('Niva')">Loading...</button></div>
+            <div class="control-box"><span>NS Buying</span><button id="ctrl-NS" class="switch-btn" onclick="toggleBuy('NS')">Loading...</button></div>
+            <div class="control-box"><span>Riva Buying</span><button id="ctrl-Riva" class="switch-btn" onclick="toggleBuy('Riva')">Loading...</button></div>
+        </div>
+
+        <h4 style="margin-top: 20px;">Orders</h4>
+        <div id="admin-list"></div>
     </div>
 
     <div id="sell-page" class="page">
         <button onclick="showPage('home-page')" style="margin-bottom: 15px; border: none; background: #ddd; padding: 8px 15px; border-radius: 10px;">← Back</button>
         <div style="background: white; padding: 20px; border-radius: 20px;">
             <h3 id="form-title">Sell Coin</h3>
+            
+            <label>Admin Username (Send Coins Here)</label>
+            <input type="text" id="admin-user-display" readonly style="background: #f0f0f0; color: #d35400; font-weight: bold;">
+
             <label>Amount (Coins)</label>
             <input type="number" id="inp-amount" placeholder="Ex: 1000">
             <label>Payment Method</label>
@@ -131,12 +156,54 @@
         const ADMIN_ID = 6822761216; // 👈 আপনার আইডি এখানে বসান
 
         const user = tg.initDataUnsafe.user || {id: 123, first_name: "TestUser"};
+        let coinStatus = { Niva: true, NS: true, Riva: true };
         
         document.getElementById('user-display-name').innerText = user.first_name;
         document.getElementById('user-display-id').innerText = "ID: " + user.id;
         document.getElementById('user-pic').src = user.photo_url || "https://cdn-icons-png.flaticon.com/512/3135/3135715.png";
 
         if(user.id == ADMIN_ID) document.getElementById('admin-panel-btn').style.display = 'block';
+
+        // Fetch Initial Status
+        async function fetchStatus() {
+            try {
+                let res = await fetch(`${DB_URL}/status.json`);
+                let data = await res.json();
+                if(data) {
+                    coinStatus = data;
+                    updateMarketUI();
+                }
+            } catch(e) {}
+        }
+        fetchStatus();
+
+        function updateMarketUI() {
+            ['Niva', 'NS', 'Riva'].forEach(c => {
+                const btn = document.getElementById(`btn-${c}`);
+                const tag = document.getElementById(`tag-${c}`);
+                const ctrl = document.getElementById(`ctrl-${c}`);
+                
+                if(coinStatus[c]) {
+                    btn.disabled = false;
+                    btn.innerText = `Sell ${c}`;
+                    tag.innerText = "ONLINE";
+                    tag.style.background = "#27ae60";
+                    if(ctrl) { ctrl.innerText = "STOP"; ctrl.style.background = "#e74c3c"; ctrl.style.color = "white"; }
+                } else {
+                    btn.disabled = true;
+                    btn.innerText = "BUYING STOP";
+                    tag.innerText = "OFFLINE";
+                    tag.style.background = "#777";
+                    if(ctrl) { ctrl.innerText = "START"; ctrl.style.background = "#27ae60"; ctrl.style.color = "white"; }
+                }
+            });
+        }
+
+        async function toggleBuy(coin) {
+            coinStatus[coin] = !coinStatus[coin];
+            await fetch(`${DB_URL}/status.json`, { method: 'PUT', body: JSON.stringify(coinStatus) });
+            updateMarketUI();
+        }
 
         function showPage(id) {
             document.querySelectorAll('.page, #home-page').forEach(p => p.style.display = 'none');
@@ -146,7 +213,14 @@
         }
 
         let selCoin, selRate;
-        function openForm(c, r) { selCoin = c; selRate = r; document.getElementById('form-title').innerText = "Sell " + c; showPage('sell-page'); }
+        function openForm(c, r, adminUser) { 
+            if(!coinStatus[c]) return alert("Buying is currently stopped for this coin.");
+            selCoin = c; 
+            selRate = r; 
+            document.getElementById('form-title').innerText = "Sell " + c; 
+            document.getElementById('admin-user-display').value = adminUser;
+            showPage('sell-page'); 
+        }
 
         async function submitOrder() {
             let amt = document.getElementById('inp-amount').value;
@@ -179,7 +253,7 @@
                             <b style="color:#2481cc;">${o.coin} Order</b><br>
                             User: ${o.uName} (${o.uid})<br>
                             Amount: ${o.amt} | <b>Pay: ${o.payout}৳</b><br>
-                            ${o.method}: ${o.num}<br>
+                            ${o.method}: ${o.num} | Wallet: ${o.wallet}<br>
                             <div class="admin-btn-group">
                                 <button class="btn-accept" onclick="updateStatus('${key}', 'Paid')">Accept</button>
                                 <button class="btn-reject" onclick="updateStatus('${key}', 'Rejected')">Reject</button>
@@ -190,6 +264,7 @@
             document.getElementById('count-pending').innerText = p;
             document.getElementById('count-paid').innerText = d;
             document.getElementById('count-rej').innerText = r;
+            updateMarketUI();
         }
 
         async function fetchHistory() {
@@ -197,6 +272,7 @@
             let data = await res.json();
             let list = document.getElementById('history-list');
             list.innerHTML = "";
+            if(!data) return;
             for(let key in data) {
                 let o = data[key];
                 if(o.uid == user.id) {

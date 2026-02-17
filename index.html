@@ -57,8 +57,12 @@
         </div>
 
         <div class="quick-links">
-            <a href="https://t.me/@coinmarketofficialupdate" class="link-btn" style="background: #0088cc;"><i class="fab fa-telegram"></i> Join Channel</a>
-            <button class="link-btn" style="background: #ff9800;" onclick="alert('VPN section coming soon!')"><i class="fas fa-shield-alt"></i> Buy VPN</button>
+            <button class="link-btn" style="background: #0088cc;" onclick="tg.openTelegramLink('https://t.me/coinmarketofficialupdate')">
+                <i class="fab fa-telegram"></i> Join Channel
+            </button>
+            <button class="link-btn" style="background: #ff9800;" onclick="alert('VPN section coming soon!')">
+                <i class="fas fa-shield-alt"></i> Buy VPN
+            </button>
         </div>
 
         <button id="admin-panel-btn" class="sell-btn" style="background: #333; display: none;" onclick="showPage('admin-page')">👑 Admin Dashboard</button>
@@ -290,4 +294,3 @@
     </script>
 </body>
 </html>
-

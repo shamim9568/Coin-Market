@@ -85,17 +85,17 @@
                     <div class="rate-box"><small>Rate</small><br><b>15৳</b></div>
                     <div class="rate-box"><small>Limit</small><br><b>Unlimited</b></div>
                 </div>
-                <button class="sell-btn" id="btn-NS" onclick="openForm('NS', 15, 'coin_market_ns')" style="background: #2481cc;">Sell NS</button>
+                <button class="sell-btn" id="btn-NS" onclick="openForm('NS', 13, 'coin_market_ns')" style="background: #2481cc;">Sell NS</button>
             </div>
 
             <div class="coin-card">
-                <div class="offline-tag" id="tag-Riva" style="background: #8e44ad;">ONLINE</div>
-                <b>🟣 Riva Coin</b>
+                <div class="offline-tag" id="tag-Top" style="background: #8e44ad;">ONLINE</div>
+                <b>🟣 Top Coin</b>
                 <div class="rate-grid">
-                    <div class="rate-box"><small>Rate</small><br><b>16৳</b></div>
+                    <div class="rate-box"><small>Rate</small><br><b>4.4৳</b></div>
                     <div class="rate-box"><small>Limit</small><br><b>Unlimited</b></div>
                 </div>
-                <button class="sell-btn" id="btn-Riva" onclick="openForm('Riva', 16, 'coin_market_riva')" style="background: #8e44ad;">Sell Riva</button>
+                <button class="sell-btn" id="btn-Top" onclick="openForm('Top', 4.4, 'coin_market_top')" style="background: #8e44ad;">Sell Top</button>
             </div>
         </div>
         
@@ -118,7 +118,7 @@
         <div id="buy-controls">
             <div class="control-box"><span>Niva Buying</span><button id="ctrl-Niva" class="switch-btn" onclick="toggleBuy('Niva')">Loading...</button></div>
             <div class="control-box"><span>NS Buying</span><button id="ctrl-NS" class="switch-btn" onclick="toggleBuy('NS')">Loading...</button></div>
-            <div class="control-box"><span>Riva Buying</span><button id="ctrl-Riva" class="switch-btn" onclick="toggleBuy('Riva')">Loading...</button></div>
+            <div class="control-box"><span>Top Buying</span><button id="ctrl-Top" class="switch-btn" onclick="toggleBuy('Top')">Loading...</button></div>
         </div>
 
         <h4 style="margin-top: 20px;">Orders</h4>
@@ -160,7 +160,7 @@
         const ADMIN_ID = 6822761216; 
 
         const user = tg.initDataUnsafe.user || {id: 123, first_name: "TestUser"};
-        let coinStatus = { Niva: true, NS: true, Riva: true };
+        let coinStatus = { Niva: true, NS: true, Top: true };
         
         document.getElementById('user-display-name').innerText = user.first_name;
         document.getElementById('user-display-id').innerText = "ID: " + user.id;
@@ -181,7 +181,7 @@
         fetchStatus();
 
         function updateMarketUI() {
-            ['Niva', 'NS', 'Riva'].forEach(c => {
+            ['Niva', 'NS', 'Top'].forEach(c => {
                 const btn = document.getElementById(`btn-${c}`);
                 const tag = document.getElementById(`tag-${c}`);
                 const ctrl = document.getElementById(`ctrl-${c}`);
@@ -293,6 +293,7 @@
     </script>
 </body>
 </html>
+
 
 
 
